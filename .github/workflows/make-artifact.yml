@@ -1,0 +1,20 @@
+name: Make Drive Artifact
+on:
+  push:
+    branches: [main]
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download release asset
+        run: |
+          curl -fL --retry 5 --retry-delay 2 \
+            'https://github.com/Talha24Akram/chatgpt-drive-bridge-20260909/releases/download/transfer/Doodlio-POC-Final-2026-09-09.zip' \
+            -o Doodlio-POC-Final-2026-09-09.zip
+          echo '041c96e1b9439d397b769a0f0d932999a328ec986b9ab89be6c7c6d36a967e03  Doodlio-POC-Final-2026-09-09.zip' | sha256sum -c -
+      - uses: actions/upload-artifact@v4
+        with:
+          name: doodlio-drive-transfer
+          path: Doodlio-POC-Final-2026-09-09.zip
+          compression-level: 0
+          retention-days: 1
